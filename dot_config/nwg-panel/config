@@ -1,0 +1,279 @@
+[
+  {
+    "name": "panel-top",
+    "output": "",
+    "layer": "top",
+    "position": "top",
+    "controls": "left",
+    "width": "auto",
+    "height": 30,
+    "homogeneous": true,
+    "margin-top": 0,
+    "margin-bottom": 0,
+    "padding-horizontal": 1,
+    "padding-vertical": 2,
+    "spacing": 1,
+    "items-padding": 0,
+    "icons": "",
+    "css-name": "panel-top",
+    "modules-left": [
+      "playerctl"
+    ],
+    "modules-center": [
+      "hyprland-workspaces"
+    ],
+    "modules-right": [
+      "tray",
+      "clock"
+    ],
+    "controls-settings": {
+      "components": [
+        "volume",
+        "battery",
+        "brightness"
+      ],
+      "commands": {
+        "battery": ""
+      },
+      "show-values": false,
+      "interval": 1,
+      "icon-size": 18,
+      "hover-opens": false,
+      "leave-closes": true,
+      "click-closes": true,
+      "css-name": "controls-window",
+      "custom-items": [
+        {
+          "name": "Panel settings",
+          "icon": "nwg-panel",
+          "cmd": "nwg-panel-config"
+        }
+      ],
+      "menu": {
+        "name": "Exit",
+        "icon": "system-shutdown-symbolic",
+        "items": [
+          {
+            "name": "Lock",
+            "cmd": "hyprlock"
+          },
+          {
+            "name": "Logout",
+            "cmd": "hyprctl dispatch exit"
+          },
+          {
+            "name": "Reboot",
+            "cmd": "systemctl reboot"
+          },
+          {
+            "name": "Shutdown",
+            "cmd": "systemctl -i poweroff"
+          }
+        ]
+      },
+      "show-brightness": false,
+      "show-volume": false,
+      "show-battery": false,
+      "output-switcher": true,
+      "per-app-volume": false,
+      "backlight-controller": "brightnessctl",
+      "backlight-device": "",
+      "window-width": 0,
+      "window-margin-horizontal": 0,
+      "window-margin-vertical": 0,
+      "root-css-name": "controls-overview",
+      "battery-low-level": 20,
+      "battery-low-interval": 3,
+      "processes-label": "Processes",
+      "readme-label": "README",
+      "angle": 0.0
+    },
+    "tray": {
+      "root-css-name": "tray",
+      "inner-css-name": "inner-tray",
+      "icon-size": 18,
+      "smooth-scrolling-threshold": 1,
+      "new-left": true
+    },
+    "sway-taskbar": {
+      "workspace-menu": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8"
+      ],
+      "name-max-len": 20,
+      "image-size": 16,
+      "workspaces-spacing": 0,
+      "task-padding": 0,
+      "show-app-icon": true,
+      "show-app-name": true,
+      "show-layout": true,
+      "workspace-buttons": false,
+      "all-workspaces": true,
+      "mark-autotiling": true,
+      "mark-xwayland": true,
+      "all-outputs": true
+    },
+    "sway-workspaces": {
+      "numbers": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8"
+      ]
+    },
+    "clock": {
+      "format": "%d %b %H:%M ",
+      "tooltip-text": "",
+      "on-left-click": "",
+      "on-middle-click": "",
+      "on-right-click": "",
+      "on-scroll-up": "",
+      "on-scroll-down": "",
+      "css-name": "clock",
+      "interval": 1,
+      "tooltip-date-format": false,
+      "root-css-name": "root-clock",
+      "angle": 0.0,
+      "calendar-path": "",
+      "calendar-css-name": "calendar-window",
+      "calendar-placement": "top-right",
+      "calendar-margin-horizontal": 0,
+      "calendar-margin-vertical": 0,
+      "calendar-icon-size": 18,
+      "calendar-interval": 60,
+      "calendar-on": false
+    },
+    "playerctl": {
+      "buttons-position": "left",
+      "icon-size": 16,
+      "chars": 56,
+      "scroll": false,
+      "button-css-name": "playerctl-button",
+      "label-css-name": "playerctl",
+      "interval": 1,
+      "show-cover": false,
+      "cover-size": 8,
+      "angle": 0.0
+    },
+    "menu-start": "off",
+    "exclusive-zone": true,
+    "sigrt": 64,
+    "use-sigrt": false,
+    "scratchpad": {},
+    "sway-mode": {},
+    "openweather": {},
+    "brightness-slider": {
+      "show-brightness": false,
+      "show-volume": false,
+      "show-battery": true,
+      "icon-size": 16,
+      "interval": 1,
+      "hover-opens": false,
+      "leave-closes": false,
+      "root-css-name": "brightness-module",
+      "css-name": "brightness-popup",
+      "angle": 0.0,
+      "icon-placement": "start",
+      "backlight-device": "",
+      "backlight-controller": "ddcutil",
+      "slider-orientation": "horizontal",
+      "slider-inverted": false,
+      "popup-icon-placement": "off",
+      "popup-horizontal-alignment": "left",
+      "popup-vertical-alignment": "top",
+      "popup-width": 256,
+      "popup-height": 64,
+      "popup-horizontal-margin": 4,
+      "popup-vertical-margin": 2,
+      "step-size": 5
+    },
+    "dwl-tags": {},
+    "hyprland-taskbar": {},
+    "hyprland-workspaces": {
+      "num-ws": 5,
+      "show-icon": true,
+      "image-size": 18,
+      "show-workspaces": true,
+      "show-name": false,
+      "name-length": 60,
+      "show-empty": true,
+      "mark-content": false,
+      "show-names": false,
+      "mark-floating": false,
+      "mark-xwayland": false,
+      "angle": 0.0
+    },
+    "monitor": "BNQ BenQ GW2490 N2R0203401Q",
+    "start-hidden": false,
+    "keyboard-layout": {
+      "keyboard-device-hyprland": "",
+      "root-css-name": "root-executor",
+      "css-name": "executor",
+      "show-icon": true,
+      "icon-size": 16,
+      "icon-placement": "left",
+      "tooltip-text": "LMB: Next layout, RMB: Menu",
+      "angle": 0.0
+    },
+    "random-wallpaper": {
+      "source": "wallhaven.cc",
+      "tags": [
+        "nature"
+      ],
+      "ratios": "16x9,16x10",
+      "atleast": "1920x1080",
+      "apikey": "",
+      "save-path": "/home/tim",
+      "local-path": "",
+      "icon-size": 16,
+      "interval": 0,
+      "refresh-on-startup": false
+    },
+    "menu-start-settings": {
+      "cmd-lock": "hyprlock",
+      "cmd-logout": "hyprctl dispatch exit",
+      "cmd-restart": "systemctl reboot",
+      "cmd-shutdown": "systemctl -i poweroff",
+      "autohide": true,
+      "file-manager": "thunar",
+      "icon-size-large": 26,
+      "icon-size-small": 16,
+      "icon-size-button": 18,
+      "margin-bottom": 2,
+      "margin-left": 2,
+      "margin-right": 2,
+      "margin-top": 2,
+      "padding": 4,
+      "terminal": "alacritty",
+      "run-through-compositor": true
+    },
+    "run-if-output-exist": [],
+    "run-if-output-absent": [],
+    "width-as-percentage": false,
+    "hyprland-submap": {},
+    "swaync": {
+      "tooltip-text": "Notifications",
+      "on-left-click": "swaync-client -t",
+      "on-middle-click": "",
+      "on-right-click": "",
+      "on-scroll-up": "",
+      "on-scroll-down": "",
+      "root-css-name": "root-executor",
+      "css-name": "executor",
+      "icon-placement": "right",
+      "icon-size": 18,
+      "interval": 1,
+      "always-show-icon": false
+    }
+  }
+]

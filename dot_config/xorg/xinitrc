@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+# setxkbmap -layout se -variant nodeadkeys -option caps:escape
+setxkbmap -layout us -option caps:escape
+xset r rate 225 25
+
+exec openbox

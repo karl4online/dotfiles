@@ -1,0 +1,311 @@
+#!/usr/bin/env zsh
+
+# export ZDOTDIR=$HOME/.config/zsh >> Add this to /etc/zsh/zshenv
+
+export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_CACHE_HOME="$HOME/.cache"
+export XDG_DATA_HOME="$HOME/.local/share"
+export XDG_STATE_HOME="$HOME/.local/state"
+
+export ZSH="$HOME/.config/zsh"
+
+export STARSHIP_CONFIG=$HOME/.config/starship/starship.toml
+
+# If not running interactively, don't do anything
+[[ $- != *i* ]] && return
+
+#######################################################
+# Source
+#######################################################
+
+# Load .zprofile for UWSM after tty login
+source $ZSH/.zprofile
+
+# Load zinit
+source $ZSH/.zsh_zinit
+
+# Load completions
+autoload -Uz compinit && compinit
+
+#######################################################
+# ZSH Basic Options
+#######################################################
+
+setopt autocd              # change directory just by typing its name
+setopt interactivecomments # allow comments in interactive mode
+setopt magicequalsubst     # enable filename expansion for arguments of the form ‘anything=expression’
+setopt nonomatch           # hide error message if there is no match for the pattern
+setopt notify              # report the status of background jobs immediately
+setopt numericglobsort     # sort filenames numerically when it makes sense
+setopt promptsubst         # enable command substitution in prompt
+
+#######################################################
+# Environment Variables
+#######################################################
+
+export EDITOR=nvim
+export VISUAL=nvim
+export TERMINAL=kitty
+export BROWSER=app.zen_browser.zen
+
+# # Locale settings
+# export LANG="en_US.UTF-8"
+# export LC_ALL="en_US.UTF-8"
+# export LC_CTYPE="en_US.UTF-8"
+# export LC_COLLATE="en_US.UTF-8"
+# export LC_MESSAGES="sv_SE.UTF-8"
+# export LC_MONETARY="sv_SE.UTF-8"
+# export LC_NUMERIC="sv_SE.UTF-8"
+# export LC_TIME="sv_SE.UTF-8"
+
+#######################################################
+# ZSH Keybindings
+#######################################################
+
+bindkey -v
+
+#######################################################
+# History Configuration
+#######################################################
+
+HISTFILE="$ZSH/.zsh_history"
+HISTSIZE=100000
+SAVEHIST=$HISTSIZE
+HISTDUP=erase
+export HISTTIMEFORMAT="%d/%m/%y %T " # add timestamp to history
+export HISTORY_IGNORE="(a|aa|c|cd|e|exit|f|ff|h|history|l|ll|ls|n|N|pwd|r|v|y|Y|z|sz|zz)"
+setopt APPEND_HISTORY
+setopt SHARE_HISTORY
+setopt hist_ignore_space
+setopt hist_ignore_all_dups
+setopt hist_save_no_dups
+setopt hist_ignore_dups
+setopt hist_find_no_dups
+
+#######################################################
+# Completion styling
+#######################################################
+
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
+zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
+zstyle ':completion:*' menu no
+zstyle ':completion:*' use-cache on
+zstyle ':completion:*' cache-path $ZSH_CACHE
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
+zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
+
+#######################################################
+# Add Common Binary Directories to Path
+#######################################################
+
+# Add directories to the end of the path if they exist and are not already in the path
+# Link: https://superuser.com/questions/39751/add-directory-to-path-if-its-not-already-there
+function pathappend() {
+    for ARG in "$@"
+    do
+        if [ -d "$ARG" ] && [[ ":$PATH:" != *":$ARG:"* ]]; then
+            PATH="${PATH:+"$PATH:"}$ARG"
+        fi
+    done
+}
+
+# Add directories to the beginning of the path if they exist and are not already in the path
+function pathprepend() {
+    for ARG in "$@"
+    do
+        if [ -d "$ARG" ] && [[ ":$PATH:" != *":$ARG:"* ]]; then
+            PATH="$ARG${PATH:+":$PATH"}"
+        fi
+    done
+}
+
+# y shell wrapper that provides the ability to change the current working directory when exiting Yazi.
+function y() {
+	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
+	yazi "$@" --cwd-file="$tmp"
+	if cwd="$(cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+		builtin cd -- "$cwd"
+	fi
+	rm -f -- "$tmp"
+}
+
+function r() {
+    local temp_file="$(mktemp -t "ranger_cd.XXXXXXXXXX")"
+    ranger --choosedir="$temp_file" -- "${@:-$PWD}"
+    if chosen_dir="$(cat -- "$temp_file")" && [ -n "$chosen_dir" ] && [ "$chosen_dir" != "$PWD" ]; then
+        builtin cd -- "$chosen_dir"
+    fi
+    rm -f -- "$temp_file"
+}
+
+# Add the most common personal binary paths located inside the home folder (these directories are only added if they exist)
+pathprepend "$HOME/bin" "$HOME/sbin" "$HOME/.local/bin" "$HOME/local/bin" "$HOME/.bin" "/var/lib/flatpak/exports/bin"
+
+# Add personal scripts (these directories are only added if they exist)
+pathappend "$HOME/.local/bin/arch" "$HOME/.local/bin/audio" "$HOME/.local/bin/wayland" "$HOME/.local/bin/x11" "$HOME/.config/emacs/bin"
+
+#######################################################
+# Aliases
+#######################################################
+
+# System
+alias c='clear'
+alias e='exit'
+alias sz='source $HOME/.config/zsh/.zshrc'
+alias grep='grep --color=auto'
+
+# Change directory aliases
+alias ..='cd ..'
+alias .2='cd ../..'
+alias .3='cd ../../..'
+alias .4='cd ../../../..'
+
+# File commands
+alias cp='cp -iv'
+alias mv='mv -iv'
+alias rmi='trash -iv'
+alias mkdir='mkdir -v'
+alias rmdir='rmdir -v'
+
+# pacman and yay
+alias pacsyu='sudo pacman -Syu'                  # update only standard pkgs
+alias pacsyyu='sudo pacman -Syyu'                # Refresh pkglist & update standard pkgs
+alias parsua='paru -Sua'             # update only AUR pkgs (paru)
+alias parsyu='paru -Syu'             # update standard pkgs and AUR pkgs (paru)
+# alias unlock='sudo rm /var/lib/pacman/db.lck'    # remove pacman lock
+# alias orphan='sudo pacman -Rns $(pacman -Qtdq)' # remove orphaned packages (DANGEROUS!)
+
+################
+# App-aliases
+################
+
+# Alias for fastfetch
+if [[ -x "$(command -v fastfetch)" ]]; then
+    alias ff='fastfetch'
+fi
+
+# Alias for neovim/vim
+if [[ -x "$(command -v nvim)" ]]; then
+	alias v='nvim'
+	alias vi='nvim'
+	alias sv='sudo nvim'
+	export MANPAGER="nvim +Man!"
+fi
+
+# Alias for lsd
+if [[ -x "$(command -v lsd)" ]]; then
+    alias a='lsd -A  --group-dirs=first --color=always'
+    alias l='lsd -A  --group-dirs=first --color=always'
+    alias aa='lsd -Al --header --group-dirs=first --color=always'
+    alias ll='lsd -Al --header --group-dirs=first --color=always'
+    alias ls='lsd -F --group-dirs=first --color=always'
+    alias lt='lsd --tree --depth=4 --color=always'
+fi
+
+# Alias For bat
+if [[ -x "$(command -v bat)" ]]; then
+    alias cat='bat --theme-dark=Coldark-Dark'
+    alias bat='bat --theme-dark=Coldark-Dark'
+fi
+
+# Alias for lazygit
+if [[ -x "$(command -v lazygit)" ]]; then
+    alias lg='lazygit'
+fi
+
+# Alias to launch a document, file, or URL in it's default X application
+if [[ -x "$(command -v xdg-open)" ]]; then
+	alias open='runfree xdg-open'
+fi
+
+# Alias for FZF
+if [[ -x "$(command -v fzf)" ]]; then
+    alias f='fzf --preview "bat --style=numbers --color=always --line-range :500 {}"'
+    # Alias to fuzzy find files in the current folder(s), preview them, and launch in an editor
+	if [[ -x "$(command -v xdg-open)" ]]; then
+		alias preview='open $(fzf --info=inline --query="${@}")'
+	else
+		alias preview='edit $(fzf --info=inline --query="${@}")'
+	fi
+fi
+
+# adding flags
+alias df='df -h' # human-readable sizes
+alias free='free -m' # show sizes in MB
+
+# get error messages from journalctl
+alias jctl="journalctl -p 3 -xb"
+
+# change your default USER shell
+alias tobash="sudo chsh $USER -s /bin/bash && echo 'Log out and log back in for change to take effect.'"
+alias tozsh="sudo chsh $USER -s /bin/zsh && echo 'Log out and log back in for change to take effect.'"
+alias tofish="sudo chsh $USER -s /bin/fish && echo 'Log out and log back in for change to take effect.'"
+
+#######################################################
+# Functions
+#######################################################
+
+# Start a program but immediately disown it and detach it from the terminal
+function runfree() {
+	"$@" > /dev/null 2>&1 & disown
+}
+
+# Copy file with a progress bar
+function cpp() {
+	if [[ -x "$(command -v rsync)" ]]; then
+		# rsync -avh --progress "${1}" "${2}"
+		rsync -ah --info=progress2 "${1}" "${2}"
+	else
+		set -e
+		strace -q -ewrite cp -- "${1}" "${2}" 2>&1 \
+		| awk '{
+		count += $NF
+		if (count % 10 == 0) {
+			percent = count / total_size * 100
+			printf "%3d%% [", percent
+			for (i=0;i<=percent;i++)
+				printf "="
+				printf ">"
+				for (i=percent;i<100;i++)
+					printf " "
+					printf "]\r"
+				}
+			}
+		END { print "" }' total_size=$(stat -c '%s' "${1}") count=0
+	fi
+}
+
+# Copy and go to the directory
+function cpg() {
+	if [[ -d "$2" ]];then
+		cp "$1" "$2" && cd "$2"
+	else
+		cp "$1" "$2"
+	fi
+}
+
+# Move and go to the directory
+function mvg() {
+	if [[ -d "$2" ]];then
+		mv "$1" "$2" && cd "$2"
+	else
+		mv "$1" "$2"
+	fi
+}
+
+# Create and go to the directory
+function mkdirg() {
+	mkdir -p "$@" && cd "$@"
+}
+
+#######################################################
+# Shell integrations
+#######################################################
+# Initialize starship
+eval "$(starship init zsh)"
+
+# Initialize zoxide 
+eval "$(zoxide init zsh)" # --cmd cd zsh
+
+# Set up fzf key bindings and fuzzy completion
+source <(fzf --zsh)

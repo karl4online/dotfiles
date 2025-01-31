@@ -1,0 +1,23 @@
+
+# if [[ -x "$(command -v fzf)" ]]; then
+# 	export FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS \
+# 	  --info=inline-right \
+# 	  --ansi \
+# 	  --layout=reverse \
+# 	  --border=rounded \
+#     --color=border:#444a73 \
+#     --color=fg:#c8d3f5 \
+#     --color=gutter:#222436 \
+#     --color=header:#ffc777 \
+#     --color=hl+:#c3e88d \
+#     --color=hl:#c3e88d \
+#     --color=info:#545c7e \
+#     --color=marker:#ff757f \
+#     --color=pointer:#ff757f \
+#     --color=prompt:#2ac3de \
+#     --color=query:#c0caf5:regular \
+#     --color=scrollbar:#27a1b9 \
+#     --color=separator:#c099ff \
+#     --color=spinner:#ff757f \
+# 	"
+# fi

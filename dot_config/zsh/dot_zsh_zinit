@@ -1,0 +1,39 @@
+#!/usr/bin/env zsh
+# Set the directory we want to store zinit and plugins
+ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
+
+# Download Zinit, if it's not there yet
+if [ ! -d "$ZINIT_HOME" ]; then
+   mkdir -p "$(dirname $ZINIT_HOME)"
+   git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
+fi
+
+# Source/Load zinit
+source "${ZINIT_HOME}/zinit.zsh"
+
+# Load ZSH Plugins
+# zinit light zsh-users/zsh-syntax-highlighting
+zinit light Aloxaf/fzf-tab
+zinit light jeffreytse/zsh-vi-mode
+zinit light zdharma-continuum/fast-syntax-highlighting
+zinit light zsh-users/zsh-completions
+zinit light zsh-users/zsh-autosuggestions
+
+# # Add in snippets
+# zinit snippet OMZP::git
+# zinit snippet OMZP::command-not-found
+# zinit snippet OMZP::sudo
+# zinit snippet OMZP::tmuxinator
+# zinit snippet OMZP::docker
+
+# Disable the cursor style feature
+ZVM_NORMAL_MODE_CURSOR=$ZVM_CURSOR_BLOCK
+ZVM_INSERT_MODE_CURSOR=$ZVM_CURSOR_BEAM
+ZVM_VISUAL_MODE_CURSOR=$ZVM_CURSOR_BLOCK
+ZVM_VISUAL_LINE_MODE_CURSOR=$ZVM_CURSOR_BEAM
+ZVM_OPPEND_MODE_CURSOR=$ZVM_CURSOR_UNDERLINE
+# ZVM_CURSOR_STYLE_ENABLED=false
+
+ZVM_VI_HIGHLIGHT_BACKGROUND=#89dceb
+ZVM_VI_HIGHLIGHT_FOREGROUND=#11111b
+
